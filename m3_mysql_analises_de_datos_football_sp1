@@ -1,0 +1,56 @@
+/************************************************************************************************
+*	exercicio pratico de mysql, usando los datos de la temporada de futbol 1liga 2017/2018		*
+*				por Fábio Fernandes																*
+*************************************************************************************************/
+
+/*1. Los campos y el tipo de estos de la tabla sp1. */
+desc md3_football_data.sql;
+
+/*2. El número total de registros de la tabla sp1. */
+SELECT count(*) FROM md3_football_data.sql;
+
+SELECT 
+*
+FROM md3_football_data.sql
+order by md3_football_data.sql.Date DESC;
+
+/*3. Mostrar los resultados de los últimos 5 partidos. */
+SELECT * 
+FROM md3_football_data.sql
+order by md3_football_data.sql.Date desc
+limit 5;
+
+/*4. Número total de goles que ha metido el Betis jugando en casa. */
+SELECT 
+	HomeTeam
+    ,sum(FTHG) AS SUM_GOLES
+FROM md3_football_data.sql
+WHERE HomeTeam = 'Betis';
+
+/*5. Los resultados de todos los partidos en los que se han enfrentado el Eibar y el Alaves */
+SELECT 
+	date
+	,HomeTeam
+    ,AwayTeam
+    ,FTHG
+    ,FTAG
+FROM 
+	md3_football_data.sql
+WHERE	HomeTeam in ('Eibar', 'Alaves') 
+		and AwayTeam in ('Eibar', 'Alaves')
+order by 
+	md3_football_data.sql.Date DESC;
+
+/*6. Listar los equipos locales de los partidos en los que jugaba el Barcelona como visitante y en la mitad del partido iban empate */
+
+SELECT 
+	date
+	,HomeTeam
+    ,AwayTeam
+    ,HTHG
+    ,HTHG
+FROM 
+	md3_football_data.sql
+WHERE AwayTeam in ('Barcelona') AND HTR = 'D'
+order by 
+	md3_football_data.sql.Date DESC;
