@@ -1,0 +1,43 @@
+/************************************************************************************************
+*	exercicio pratico de mysql, usando los datos de la temporada de futbol 1liga 2017/2018	    	*
+*				por Fábio Fernandes                                       															*
+*************************************************************************************************/
+
+/* Preparation de los datos para las analises */
+
+/* criar base de datos */
+create database md3_football_data;
+
+/* criacion de la tabela e chave primaria */
+create table if not exists md3_football_data.sql (
+Divison varchar(5) NOT NULL,
+Date_text varchar(12) NOT NULL,
+HomeTeam varchar(40) NOT NULL,
+AwayTeam varchar(40) NOT NULL,
+FTHG int NOT NULL,
+FTAG int NOT NULL,
+FTR varchar(2) NOT NULL,
+HTHG int NOT NULL,
+HTAG int NOT NULL,
+HTR varchar(2) NOT NULL,
+primary key (Divison,Date_text,Hometeam,Awayteam)
+);
+
+/* no ay utlizado import, lo ay realizado por mysql workbanch import file */ 
+-- LOAD DATA INFILE 'C:\Users\fabio.fernandes\Downloads\SP1.csv' 
+-- INTO TABLE md3_football_data.sql
+-- FIELDS TERMINATED BY ',' 
+-- ENCLOSED BY '"'
+-- LINES TERMINATED BY '\n'
+-- IGNORE 1 ROWS;
+
+/* profiling DB */
+show tables;
+desc md3_football_data.sql;
+
+
+/*  transformaciones de los datos */
+ALTER TABLE md3_football_data.sql ADD COLUMN date Date NOT NULL after Divison;  -- nueva coluna de Date 
+SET SQL_SAFE_UPDATES = 0;  -- alteration de las config mysql para permitir updates e deletes
+update md3_football_data.sql SET DATE = STR_TO_DATE(date_text, '%d/%m/%Y');  -- trasformation de campo date de string to DATE
+alter table md3_football_data.sql DROP PRIMARY KEY, ADD  primary key (Divison,Date,Hometeam,Awayteam); -- Alteration de la chave primaria com el nuevo campo de date
